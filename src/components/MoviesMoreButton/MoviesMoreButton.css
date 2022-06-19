@@ -1,0 +1,38 @@
+.movies-button {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    height: 36px;
+    padding-top: 11px;
+    color: #FFFFFF;
+    background: #2F2F2F;
+    border-radius: 6px;
+    border: #2F2F2F;
+    display: flex;
+    margin: 70px auto 80px;
+    width: 1140px;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity .5s linear;
+}
+
+.movies-button:hover {
+    opacity: .8;
+
+}
+
+@media screen and (max-width: 1170px) {
+    .movies-button {
+        width: 708px;
+
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .movies-button {
+        width: 300px;
+    }
+}

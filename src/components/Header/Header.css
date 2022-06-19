@@ -1,0 +1,49 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background: #202020;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+.header__landing {
+    background: #073042;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+.header__container {
+    display: flex;
+    margin: 21px 70px 21px 10px;
+    text-align: center;
+    align-items: center;
+}
+
+
+@media screen and (max-width: 850px) {
+    .header__landing {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .header {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .header__landing {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+}

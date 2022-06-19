@@ -1,0 +1,220 @@
+.aboutMe {
+    padding: 110px 70px 100px;
+    background: #202020;
+}
+
+.aboutMe__title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    margin: 0;
+    /* identical to box height */
+
+    letter-spacing: -0.04em;
+
+    color: #FFFFFF;
+    border-bottom: 1px solid #DADADA;
+    padding-bottom: 23px;
+}
+
+.aboutMe__container {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 60px;
+}
+
+.aboutMe__container-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.aboutMe__photo {
+    width: 270px;
+    height: 327px;
+    border-radius: 10px;
+}
+
+.aboutMe__name {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    /* identical to box height, or 116% */
+
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+.aboutMe__work {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    /* identical to box height, or 111% */
+    margin: 0;
+    padding-top: 18px;
+    padding-bottom: 26px;
+
+    color: #FFFFFF;
+
+}
+
+.aboutMe__description {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    /* or 157% */
+    margin: 0;
+
+    color: #FFFFFF;
+    padding-bottom: 170px;
+}
+
+.aboutMe__link {
+    text-decoration: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+
+    color: #FFFFFF;
+    margin: 0;
+    padding-right: 20px;
+    transition: opacity .2s linear;
+}
+
+.aboutMe__link:hover {
+    opacity: .5;
+}
+
+.aboutMe__subtitle {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    /* identical to box height, or 111% */
+    padding-bottom: 50px;
+    margin: 0;
+    color: #8B8B8B;
+
+    mix-blend-mode: normal;
+    padding-top: 100px;
+}
+
+.aboutMe__container-portfolio {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #424242
+}
+
+.aboutMe__container-portfolio:last-child {
+    border-bottom: none;
+}
+
+.aboutMe__site {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 50px;
+    /* identical to box height, or 167% */
+
+    letter-spacing: -0.04em;
+
+    color: #FFFFFF;
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.aboutMe__site-button {
+    width: 29px;
+    height: 40px;
+    background-color: #202020;
+    margin-top: 30px;
+    align-items: center;
+    object-fit: cover;
+    transition: opacity .4s linear;
+}
+
+.aboutMe__site-button:hover {
+    opacity: .5;
+}
+
+@media screen and (max-width: 850px) {
+    .aboutMe {
+        padding: 90px 50px 90px;
+    }
+
+    .aboutMe__subtitle {
+        padding-top: 90px;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .aboutMe {
+        padding: 70px 14px 90px;
+    }
+
+    .aboutMe__title {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .aboutMe__container {
+        justify-content: center;
+        flex-direction: column-reverse;
+        margin: auto;
+        max-width: 292px;
+    }
+
+    .aboutMe__photo {
+        width: 292px;
+        height: 352px;
+        margin-bottom: 40px;
+    }
+
+    .aboutMe__name {
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    .aboutMe__work {
+        font-size: 11px;
+        line-height: 16px;
+        padding-top: 20px;
+        padding-bottom: 20PX;
+    }
+
+    .aboutMe__description {
+        font-size: 11px;
+        line-height: 16px;
+        padding-bottom: 40px;
+    }
+
+    .aboutMe__subtitle {
+        font-size: 14px;
+        line-height: 20px;
+        padding-top: 70px;
+        padding-bottom: 40px;
+    }
+
+    .aboutMe__site {
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+    .aboutMe__site-button {
+        width: 18px;
+        height: 28px;
+    }
+}

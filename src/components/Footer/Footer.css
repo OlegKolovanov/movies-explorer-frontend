@@ -1,0 +1,120 @@
+.footer {
+    padding: 80px 0 20px;
+    background: #202020;
+    padding: 80px 70px 20px;
+    max-width: 100%;
+}
+
+.footer_landing {
+    max-width: 100%;
+    margin: 0;
+    padding: 80px 70px 20px;
+}
+
+.footer__title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #8B8B8B;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.footer__container {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #424242;
+    padding-top: 20px;
+}
+
+.footer__data {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+    margin: 0;
+
+    color: #FFFFFF;
+}
+
+.footer__link {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+
+    text-align: right;
+
+    color: #FFFFFF;
+    text-decoration: none;
+    padding-right: 20px;
+    margin: 0;
+    transition: opacity .4s linear;
+}
+
+.footer__link:hover {
+    opacity: .4;
+}
+
+.footer__link:last-child {
+    padding-right: 0;
+}
+
+@media screen and (max-width: 850px) {
+    .footer_landing {
+        padding: 80px 30px 20px;
+    }
+
+    .footer {
+        padding: 80px 30px 20px;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .footer_landing {
+        padding: 80px 10px 10px;
+    }
+
+    .footer__title {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .footer__container {
+        justify-content: center;
+        flex-direction: column-reverse;
+        max-width: 300px;
+        margin: auto;
+    }
+
+    .footer__container-link {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer__link {
+        padding-right: 0;
+        text-align: center;
+        padding-bottom: 12px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .footer__data {
+        text-align: center;
+        padding-top: 18px;
+        color: #8B8B8B;
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
