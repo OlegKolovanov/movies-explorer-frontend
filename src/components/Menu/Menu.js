@@ -20,11 +20,11 @@ function Menu() {
                     <button className="menu__close" type="button" ></button>
                 </div>
 
-                <h2 className="menu__title">Главная</h2>
-                <a className="menu__link" href="http://localhost:3000/movies">Фильмы</a>
-                <a className="menu__link" href="http://localhost:3000/saved-movies">Сохраненные фильмы</a>
+                <Link className="menu__link" to="/">Главная</Link>
+                <Link className="menu__link" to="/movies">Фильмы</Link>
+                <Link className="menu__link" to="/saved-movies">Сохраненные фильмы</Link>
                 <div className="menu__container">
-                    <a className="menu__acc" href="http://localhost:3000/profile">Аккаунт</a>
+                    <Link className="menu__acc" to="/profile">Аккаунт</Link>
                     <Link to="/profile"><button type="button" className="menu__button"></button></Link>
                 </div>
 

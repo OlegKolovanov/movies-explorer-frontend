@@ -63,7 +63,8 @@
 }
 
 .footer__link:hover {
-    opacity: .4;
+    opacity: .7;
+    text-decoration: underline solid #FFFFFF;
 }
 
 .footer__link:last-child {

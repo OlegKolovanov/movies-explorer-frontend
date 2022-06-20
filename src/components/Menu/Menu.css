@@ -19,6 +19,11 @@
         cursor: pointer;
         z-index: 1;
         display: block;
+        transition: opacity .5s linear;
+    }
+
+    .menu:hover {
+        opacity: .7;
     }
 
     .menu__block {
@@ -55,27 +60,11 @@
 
     }
 
-    .menu__title {
-        text-align: center;
-        margin: 0;
-        padding-top: 160px;
-        padding-bottom: 28px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 22px;
-        /* identical to box height */
-        z-index: 2;
-        text-align: center;
-
-        color: #FFFFFF;
-    }
 
     .menu__link {
         text-decoration: none;
         text-align: center;
-        padding-bottom: 28px;
+        margin-bottom: 28px;
         font-family: 'Inter';
         font-style: normal;
         font-weight: 500;
@@ -84,12 +73,21 @@
         /* identical to box height */
         z-index: 2;
         text-align: center;
-
         color: #FFFFFF;
+        transition: opacity .5s linear;
     }
 
-    .menu__link:nth-child(2n) {
-        padding-bottom: 600px;
+    .menu__link:hover {
+        opacity: .7;
+        text-decoration: underline solid #FFFFFF;
+    }
+
+    .menu__link:nth-child(4n) {
+        margin-bottom: 600px;
+    }
+
+    .menu__link:first-of-type {
+        margin-top: 160px;
     }
 
     .menu__button {
@@ -109,7 +107,7 @@
     }
 
     .menu__button:hover {
-        opacity: .4;
+        opacity: .7;
     }
 
     .menu__container {
@@ -135,6 +133,12 @@
         text-align: center;
         margin: 0;
         color: #FFFFFF;
+        transition: opacity .5s linear;
+    }
+
+    .menu__acc:hover {
+        opacity: .7;
+        text-decoration: underline solid #FFFFFF;
     }
 
     .menu__container-close {

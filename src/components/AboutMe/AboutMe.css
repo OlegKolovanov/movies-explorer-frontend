@@ -92,7 +92,8 @@
 }
 
 .aboutMe__link:hover {
-    opacity: .5;
+    opacity: .7;
+    text-decoration: underline solid #FFFFFF;
 }
 
 .aboutMe__subtitle {

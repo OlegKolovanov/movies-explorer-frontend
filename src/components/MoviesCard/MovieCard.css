@@ -43,7 +43,7 @@
 }
 
 .moviecard__like:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .moviecard__delete {
@@ -62,7 +62,7 @@
 }
 
 .moviecard__delete:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .moviecard__delete:hover {

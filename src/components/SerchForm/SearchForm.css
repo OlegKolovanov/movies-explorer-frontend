@@ -27,7 +27,7 @@
 }
 
 .search__input:hover {
-    opacity: .8;
+    opacity: .7;
 }
 
 .search__input:focus {
@@ -57,7 +57,7 @@
 }
 
 .search__button:hover {
-    opacity: .4;
+    opacity: .7;
 }
 
 .search__checkbox {
@@ -84,7 +84,7 @@
 }
 
 .search__checkbox:hover {
-    opacity: .8;
+    opacity: .7;
 }
 
 @media screen and (max-width: 850px) {

@@ -71,7 +71,7 @@
 }
 
 .profile-form__input:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .profile-form__button {
@@ -90,7 +90,7 @@
 }
 
 .profile-form__button:hover {
-    opacity: .4;
+    opacity: .7;
 }
 
 .profile-form__exit {
@@ -111,7 +111,7 @@
 }
 
 .profile-form__exit:hover {
-    opacity: .4;
+    opacity: .7;
 }
 
 @media screen and (max-width: 440px) {

@@ -20,10 +20,11 @@
     padding-right: 18px;
     text-decoration: none;
     transition: opacity .2s linear;
+    color: #000000;
 }
 
 .nav__signin:hover {
-    opacity: .5;
+    opacity: .7;
 }
 
 .nav__signup {
@@ -40,7 +41,8 @@
 }
 
 .nav__signup:hover {
-    opacity: .5;
+    opacity: .7;
+    text-decoration: underline solid #FFFFFF;
 }
 
 @media screen and (max-width: 500px) {
