@@ -12,7 +12,7 @@
 }
 
 .footer__title {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -34,7 +34,7 @@
 }
 
 .footer__data {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -46,7 +46,7 @@
 }
 
 .footer__link {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;

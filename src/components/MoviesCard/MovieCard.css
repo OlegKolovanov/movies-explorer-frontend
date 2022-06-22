@@ -16,7 +16,7 @@
 
 .moviecard__title {
     max-width: 226px;
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 13px;
@@ -46,6 +46,23 @@
     opacity: .7;
 }
 
+.moviecard__like_active {
+    height: 24px;
+    width: 24px;
+    border: none;
+    background-color: #313131;
+    background-image: url(../../images/likeactive.svg);
+    background-repeat: no-repeat;
+    margin-top: 8px;
+    border-radius: 36px;
+    transition: opacity .4s linear;
+    cursor: pointer;
+}
+
+.moviecard__like_active:hover {
+    opacity: .7;
+}
+
 .moviecard__delete {
     height: 24px;
     width: 24px;
@@ -71,7 +88,7 @@
 }
 
 .moviecard__time {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 11px;

@@ -5,7 +5,7 @@
 }
 
 .register__title {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -20,7 +20,7 @@
     display: flex;
     flex-direction: column;
     background-color: transparent;
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 10px;
@@ -38,7 +38,7 @@
     border: none;
     border-bottom: 1px solid #424242;
     background-color: transparent;
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -63,7 +63,7 @@
 .register__button {
     background: #4285F4;
     border-radius: 3px;
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -84,7 +84,7 @@
 }
 
 .register__text {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -99,7 +99,7 @@
 }
 
 .register__link {
-    font-family: 'Inter';
+    font-family: "Inter", "Arial", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
