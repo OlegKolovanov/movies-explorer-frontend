@@ -1,0 +1,54 @@
+.navigation {
+    display: flex;
+    margin-top: 21px;
+}
+
+.navigation__link {
+    font-family: "Inter", "Arial", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+
+    text-align: right;
+    text-decoration: none;
+    color: #FFFFFF;
+    padding-right: 20px;
+    padding-top: 7px;
+    transition: opacity .4s linear;
+}
+
+.navigation__link:hover {
+    opacity: .7;
+    text-decoration: underline solid #FFFFFF;
+}
+
+.navigation__link:last-of-type {
+    padding-left: 30px;
+    padding-right: 13px;
+}
+
+.navigation__button {
+    height: 30px;
+    width: 30px;
+    background-image: url(../../images/acc.svg);
+    background-color: #313131;
+    color: #FFFFFF;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 6px;
+    border: #313131;
+    cursor: pointer;
+    transition: opacity .4 linear;
+}
+
+.navigation__button:hover {
+    opacity: .7;
+}
+
+@media screen and (max-width: 768px) {
+    .navigation {
+        display: none;
+    }
+}
