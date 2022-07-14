@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 function Menu() {
     const [isActive, setIsActive] = useState(false)
 
-    console.log(isActive)
-
     function handlePopup() {
         setIsActive(!isActive)
         console.log('1')

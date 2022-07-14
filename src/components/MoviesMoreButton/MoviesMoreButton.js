@@ -1,12 +1,13 @@
 import React from 'react';
 import './MoviesMoreButton.css';
 
-function MoviesMoreButton() {
+function MoviesMoreButton(props) {
 
   return (
     <button
       type="button"
       className="movies-button"
+      onClick={props.onClick}
     >
       Ещё
     </button>

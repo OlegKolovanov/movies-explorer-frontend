@@ -5,12 +5,16 @@ import Footer from "../Footer/Footer";
 import MovieCardList from "../MoviesCardList/MovieCardList";
 import SearchForm from "../SerchForm/SearchForm";
 
-function SavedMovies() {
+function SavedMovies(props) {
     return (
         <section className="savedmovies">
             <Header />
-            <SearchForm />
-            <MovieCardList />
+            <SearchForm
+                handleSaveSearchForm={props.handleSaveSearchForm}
+                sortSaveMovie={props.sortSaveMovie}
+                shortSaveMovies={props.shortSaveMovies}
+                checkedSave={props.checkedSave} />
+            <MovieCardList card={props.card} handleDelete={props.handleDelete} />
             <Footer />
         </section>
     )

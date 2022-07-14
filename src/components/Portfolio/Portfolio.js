@@ -3,11 +3,11 @@ import './Portfolio.css'
 import Header from "../Header/Header";
 import ProfileForm from "../ProfileForm/ProfileForm";
 
-function Profile() {
+function Profile(props) {
     return (
         <section className="portfolio">
             <Header />
-            <ProfileForm />
+            <ProfileForm handleLogout={props.handleLogout} handleUpdateProfile={props.handleUpdateProfile} />
         </section>
     )
 }

@@ -8,10 +8,10 @@ import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 import NavTab from "../NavTab/NavTab";
 
-function Main() {
+function Main(props) {
   return (
     <main>
-      <Header>
+      <Header loggedIn={props.loggedIn}>
         <NavTab />
       </Header>
       <Promo />
