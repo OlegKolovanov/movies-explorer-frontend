@@ -1,11 +1,13 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Register.css"
 import Logo from "../Logo/Logo";
 import { useFormWithValidation } from "../Validation/Validation";
 
 
+
 function Register(props) {
+
 
     const { values, isValid, handleChange, errors } = useFormWithValidation({
         name: "",
@@ -24,7 +26,7 @@ function Register(props) {
         }
     }
 
-
+    console.log(props.isRegistrationSuccessful, props.userMessage, props.registrationError)
 
     return (
         <form className="register" onSubmit={handleSubmit}>
@@ -35,6 +37,17 @@ function Register(props) {
             <label className="register__label">Имя<input className="register__input" onChange={(e) => handleChange(e)} type="text" id="name" name="name" value={values.name || ''} minLength="2" maxLength="18" required></input></label>
             <label className="register__label">E-mail<input className="register__input" onChange={(e) => handleChange(e)} type="email" id="email" name="email" value={values.email || ''} required></input></label>
             <label className="register__label">Пароль<input className="register__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" required></input></label>
+            <span className={`register__info-message 
+             ${!isValid ? `register__info-message_active` : null}`}>
+                {errors?.name}{errors?.email}{errors?.password}
+            </span>
+            <span className={`register__info-message 
+             ${props.isRegistrationSuccessful ?
+                    `register__info-message_active-success` :
+                    `register__info-message_active`
+                }`}>
+                {props.isRegistrationSuccessful ? `${props.userMessage}` : `${props.registrationError}`}
+            </span>
             <button className="register__button" type="submit" >Зарегистрироваться</button>
             <p className="register__text">Уже зарегистрированы?<Link className="register__link" to="/signin">Войти</Link></p>
         </form>

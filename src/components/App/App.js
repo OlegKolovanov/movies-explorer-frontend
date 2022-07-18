@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
 import Main from '../Main/Main';
-import { Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Portfolio/Portfolio";
@@ -16,107 +16,28 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 function App() {
 
-  const location = useLocation();
   const history = useNavigate();
-  const jwt = localStorage.getItem('jwt');
-
+  const jwt = localStorage.getItem('jwt')
   const [loggedIn, setLoggedIn] = useState(false)
   const [userMovie, setUserMovie] = useState([])
   const [longUserMovie, setLongUserMovie] = useState([])
-
-  useEffect(() => {
-    if (jwt) {
-      mainApi.getUser(jwt)
-        .then((res) => {
-          if (res) {
-            console.log(res)
-            setLoggedIn(true)
-            setCurrentUser(res)
-            history('/movies')
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      mainApi.getMovie(jwt)
-        .then((res) => {
-          console.log(res.data)
-          const savedMoviesList = res.data.filter(
-            (item) => item.owner === currentUser._id
-
-          );
-          console.log(savedMoviesList)
-          setLongUserMovie(savedMoviesList)
-          setUserMovie(savedMoviesList)
-        })
-    }
-  }, [loggedIn])
-
   const [movie, setMovie] = useState([])
   const [searchCard, setSearchCard] = useState([])
   const [shortMovies, setShortMovies] = useState(false)
   const [saveShortMovies, setSaveShortMovies] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
   const [longMovie, setLongMovie] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const [nothingFound, setNothingFound] = useState(false);
+  const [profileUpdateMessage, setProfileUpdateMessage] = useState("");
+  const [profileErrorMessage, setProfileErrorMessage] = useState("");
+  const [isProfileUpdateSuccessful, setIsProfileUpdateSuccessful] = useState(false);
+  const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(false);
+  const [registrationError, setRegistrationError] = useState("");
+  const [userMessage, setUserMessage] = useState("");
+  const [loginError, setLoginError] = React.useState(false);
+  const [loginErrorMessage, setLoginErrorMessage] = React.useState("");
 
-  console.log(location.pathname)
-  //SearchForm
-  function handleSearchForm(films) {
-    const regexp = new RegExp(films, "gi")
-    const findedMovies = movie.filter(
-      (item) => regexp.test(item.nameRU) || regexp.test(item.nameEN)
-    )
-
-    setSearchCard(findedMovies)
-    setLongMovie(findedMovies)
-  }
-
-  function handleSaveMovieSearch(films) {
-    const regexp = new RegExp(films, "gi")
-    const findedMovies = userMovie.filter(
-      (item) => regexp.test(item.nameRU) || regexp.test(item.nameEN)
-    )
-    setUserMovie(findedMovies)
-  }
-
-
-  function handleCheckBox() {
-    console.log(searchCard)
-    setShortMovies(!shortMovies);
-    if (shortMovies === true) {
-      setSearchCard(longMovie)
-
-    }
-  }
-
-  function handleSaveCheckBox() {
-    console.log(searchCard)
-    setSaveShortMovies(!saveShortMovies);
-    if (saveShortMovies === true) {
-      setUserMovie(longUserMovie)
-    }
-  }
-
-
-  function filterShortMovies() {
-
-    if ((searchCard.length !== 0 || searchCard !== "undefind") && shortMovies === true) {
-      const shortMovie = searchCard.filter(movie => {
-        return movie.duration <= 40
-      })
-      setSearchCard(shortMovie)
-    }
-  }
-
-  function filterSaveShortMovie() {
-    console.log(userMovie)
-    if ((userMovie.length !== 0 || userMovie !== "undefind") && saveShortMovies === true) {
-      const shortMovie = userMovie.filter(movie => {
-        return movie.duration <= 40
-      })
-      setUserMovie(shortMovie)
-    }
-  }
 
   function handleLogin({ email, password }) {
     console.log(email, password)
@@ -139,7 +60,168 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setLoginErrorMessage("Не удалось войти, пожалуйста, проверьте данные");
+        setLoginError(true);
       });
+  }
+
+
+  useEffect(() => {
+    if (jwt) {
+      Promise.all([mainApi.getUser(jwt), mainApi.getMovie(jwt)])
+        .then(([user, movie]) => {
+
+          setCurrentUser(user)
+          setLoggedIn(true)
+          const savedMoviesList = movie.data.filter(
+            (item) => item.owner === currentUser._id
+
+          );
+          const movieList = JSON.parse(localStorage.getItem('movie'))
+          setSearchCard(movieList)
+          const listMovie = JSON.parse(localStorage.getItem('movies'))
+          setLongUserMovie(savedMoviesList)
+          setUserMovie(savedMoviesList)
+
+          setMovie(listMovie)
+          history("/movies");
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }, [loggedIn])
+
+  const checkbox = JSON.parse(localStorage.getItem('boolean'))
+
+  useEffect(() => {
+
+    if (localStorage.getItem('search')) {
+      setShortMovies(checkbox)
+      const previousSearchWord = JSON.parse(localStorage.getItem('search'))
+      handleSearchForm(previousSearchWord)
+    }
+  }, [movie])
+
+  function handleSearchForm(films) {
+    setNothingFound(false);
+    setIsLoading(true);
+    const regexp = new RegExp(films, "gi")
+
+    const findedMovies = movie.filter(
+      (item) => regexp.test(item.nameRU) || regexp.test(item.nameEN)
+    )
+    // console.log(shortMovies)
+    // console.log(findedMovies)
+
+    setSearchCard(findedMovies)
+    // console.log(searchCard)
+    setLongMovie(findedMovies)
+    localStorage.setItem('search', JSON.stringify(films))
+    localStorage.setItem('movie', JSON.stringify(findedMovies))
+    if (shortMovies === true) {
+
+      filterShortMovies(findedMovies)
+      setTimeout(() => setIsLoading(false), 500);
+    }
+    else if (findedMovies.length === 0) {
+      setIsLoading(false)
+      setNothingFound(true)
+      setSearchCard([])
+      setLongMovie([])
+      localStorage.setItem('search', JSON.stringify(films))
+      localStorage.setItem('movie', JSON.stringify(findedMovies))
+    } else {
+      localStorage.setItem('search', JSON.stringify(films))
+      localStorage.setItem('movie', JSON.stringify(findedMovies))
+      setSearchCard(findedMovies)
+
+      setLongMovie(findedMovies)
+      setTimeout(() => setIsLoading(false), 500);
+    }
+
+  }
+
+
+
+  function handleSaveMovieSearch(films) {
+    setNothingFound(false);
+    setIsLoading(true);
+    if (films === '') {
+      setUserMovie(longUserMovie)
+    }
+    const regexp = new RegExp(films, "gi")
+    const findedMovies = longUserMovie.filter(
+      (item) => regexp.test(item.nameRU) || regexp.test(item.nameEN)
+    )
+    if (findedMovies.length === 0) {
+      setNothingFound(false);
+      setIsLoading(true);
+    }
+
+    setUserMovie(findedMovies)
+    setTimeout(() => setIsLoading(false), 500)
+  }
+  // console.log(localStorage.getItem('boolean'))
+
+  function handleCheckBox() {
+    setShortMovies(!shortMovies)
+    console.log(shortMovies)
+
+  }
+
+  // console.log(movie)
+
+
+  useEffect(() => {
+    localStorage.setItem('boolean', JSON.stringify(shortMovies))
+    if (shortMovies === true) {
+      filterShortMovies(longMovie)
+    } else {
+      setSearchCard(longMovie)
+    }
+  }, [shortMovies])
+
+
+
+
+  function handleSaveCheckBox() {
+
+    setSaveShortMovies(!saveShortMovies);
+    if (saveShortMovies === true) {
+      setUserMovie(longUserMovie)
+      localStorage.removeItem('shortMovie')
+
+    } else {
+      filterSaveShortMovie()
+    }
+  }
+
+  function filterShortMovies(searchCard) {
+
+
+
+    if ((searchCard.length !== 0 || searchCard !== "undefind") && shortMovies === true) {
+      const shortMovie = searchCard.filter(movie => {
+        return movie.duration <= 40
+      })
+      setSearchCard(shortMovie)
+
+      localStorage.setItem('Movie', JSON.stringify(searchCard))
+    }
+  }
+
+  function filterSaveShortMovie() {
+    console.log(userMovie)
+    console.log(saveShortMovies)
+    if ((userMovie.length !== 0 || userMovie !== "undefind") && !saveShortMovies === true) {
+      const shortMovie = userMovie.filter(movie => {
+        return movie.duration <= 40
+      })
+      setUserMovie(shortMovie)
+
+    }
   }
 
   function handleRegister({ name, email, password }) {
@@ -147,13 +229,18 @@ function App() {
       .then((res) => {
         if (res) {
           console.log(email, password)
-          handleLogin({ email, password })
+          setIsRegistrationSuccessful(true);
+          setUserMessage("Вы успешно зарегистрированы!");
+          setTimeout(() => handleLogin({ email, password }), 1000)
         }
       })
       .catch((err) => {
+        setRegistrationError("Что-то пошло не так...");
         console.log(err);
       });
   }
+
+
 
   function handleLogout() {
     console.log('1')
@@ -163,7 +250,10 @@ function App() {
     setUserMovie([])
     setLongMovie([])
     setLoggedIn(false)
-    setLoggedIn(false)
+    setSaveShortMovies([])
+    setCurrentUser({})
+    setShortMovies([])
+    setMovie([])
     history('/signin')
   }
 
@@ -173,30 +263,36 @@ function App() {
         setMovie(res)
       })
       .catch((err) => console.log(err))
-  }, [])
+  }, [loggedIn])
 
-  useEffect(() => {
-    if (shortMovies === true) {
-      filterShortMovies()
-    }
-    if (saveShortMovies === true) {
-      filterSaveShortMovie()
-    }
-  }, [shortMovies, saveShortMovies])
+  // useEffect(() => {
+  //   if (shortMovies === true) {
+  //     console.log('1')
+  //     filterShortMovies()
+  //   }
+  //   if (saveShortMovies === true) {
+  //     filterSaveShortMovie()
+  //   }
+  // }, [shortMovies, saveShortMovies])
 
 
   function handleUpdateProfile(data) {
-
+    setProfileUpdateMessage("");
+    setProfileErrorMessage("");
     console.log(jwt)
     mainApi.updateUser(data, jwt)
       .then((res) => {
-
+        setIsProfileUpdateSuccessful(true);
+        setProfileUpdateMessage("Данные успешно изменены");
         console.log(res.data.name)
         setCurrentUser(res.data);
-
+        setTimeout(() => setProfileUpdateMessage(""), 3000);
       })
       .catch((err) => {
         console.log(err);
+        setIsProfileUpdateSuccessful(false);
+        setProfileErrorMessage("Что-то пошло не так...");
+        setTimeout(() => setProfileErrorMessage(""), 3000);
       });
   }
 
@@ -224,6 +320,14 @@ function App() {
       })
   }
 
+  useEffect(() => {
+    beatfilmApi.getMovies()
+      .then((res) => {
+        localStorage.setItem("movies", JSON.stringify(res));
+      })
+      .catch((err) => console.log(err))
+  }, [loggedIn])
+
 
   return (
 
@@ -238,16 +342,33 @@ function App() {
             saveCard={userMovie}
             card={searchCard}
             sortMovie={handleCheckBox}
-            shortMovies={filterShortMovies} /> : <Navigate to='/signin' />} />
+            shortMovies={filterShortMovies}
+            isNothingFound={nothingFound}
+            isLoading={isLoading} /> : <Navigate to='/' />} />
           <Route path="/saved-movies" element={loggedIn ? <SavedMovies card={userMovie}
             handleDelete={handleDelete}
             handleSaveSearchForm={handleSaveMovieSearch}
             shortSaveMovies={filterSaveShortMovie}
             checkedSave={saveShortMovies}
-            sortSaveMovie={handleSaveCheckBox} /> : <Navigate to='/signin' />} />
-          <Route path="/profile" element={loggedIn ? <Profile handleLogout={handleLogout} handleUpdateProfile={handleUpdateProfile} /> : <Navigate to='/signin' />} />
-          <Route path="/signup" element={<Register handleRegister={handleRegister} />} />
-          <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
+            sortSaveMovie={handleSaveCheckBox}
+            isNothingFound={nothingFound}
+            isLoading={isLoading} /> : <Navigate to='/' />} />
+          <Route path="/profile" element={loggedIn ? <Profile
+            handleLogout={handleLogout}
+            handleUpdateProfile={handleUpdateProfile}
+            profileUpdateMessage={profileUpdateMessage}
+            profileErrorMessage={profileErrorMessage}
+            isProfileUpdateSuccessful={isProfileUpdateSuccessful}
+          /> : <Navigate to='/' />} />
+          <Route path="/signup" element={<Register
+            handleRegister={handleRegister}
+            userMessage={userMessage}
+            registrationError={registrationError}
+            isRegistrationSuccessful={isRegistrationSuccessful} />} />
+          <Route path="/signin" element={<Login
+            handleLogin={handleLogin}
+            loginError={loginError}
+            loginErrorMessage={loginErrorMessage} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </CurrentUserContext.Provider>

@@ -28,13 +28,21 @@ function ProfileForm(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (isValid) {
-            props.handleUpdateProfile({
-                name: nameRef.current.value,
-                email: emailRef.current.value,
-            });
+        if (dataIsChanged === true) {
+            if (isValid) {
+                props.handleUpdateProfile({
+                    name: nameRef.current.value,
+                    email: emailRef.current.value,
+                });
+            }
         }
     };
+
+    console.log(props.isProfileUpdateSuccessful, props.profileUpdateMessage, props.profileErrorMessage)
+
+    function handleLogout() {
+        props.handleLogout()
+    }
 
     return (
         <>
@@ -59,9 +67,18 @@ function ProfileForm(props) {
                         defaultValue={currentUser.email}
                         ref={emailRef}
                         required></input></label>
+                    <span className={`profile-form__message ${isValid ? 'profile-form__message_active' : null}`}>
+                        {errors?.userName}
+                        {errors?.userEmail}
+                    </span>
+                    <span className={`profile-form__message ${props.isProfileUpdateSuccessful ? 'profile-form__message_active-success' : 'profile-form__message_active'}`}>
+                        {props.isProfileUpdateSuccessful
+                            ? `${props.profileUpdateMessage}`
+                            : `${props.profileErrorMessage}`}
+                    </span>
                 </div>
-                <button className="profile-form__button" type="submit">Редактировать</button>
-                <button className="profile-form__exit" type="submit" onClick={props.handleLogout}>Выйти из аккаунта</button>
+                <button className={dataIsChanged ? 'profile-form__button' : 'profile-form__button_unactive'} type="submit">Редактировать</button>
+                <button className="profile-form__exit" type="submit" onClick={handleLogout}>Выйти из аккаунта</button>
             </form>
 
         </>

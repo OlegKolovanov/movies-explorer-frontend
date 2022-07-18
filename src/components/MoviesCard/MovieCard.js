@@ -9,7 +9,7 @@ function MovieCard(props) {
     const location = useLocation()
     const [isLiked, setIsLiked] = useState(false);
     const [save, setSave] = useState(true)
-    console.log(currentUser)
+
 
     function handleLikeCard() {
         setSave(false)
@@ -53,7 +53,7 @@ function MovieCard(props) {
 
     const cardLikeButtonClassName = `${isLiked ? "moviecard__like_active" : "moviecard__like"
         }`;
-    console.log(props.card)
+
 
     return (
         <>

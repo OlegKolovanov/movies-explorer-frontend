@@ -118,6 +118,25 @@
     opacity: .7;
 }
 
+.register__info-message {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 13px;
+    color: #FF4062;
+    display: none;
+    flex-direction: column;
+    max-width: 396px;
+}
+
+.register__info-message_active {
+    display: flex;
+}
+
+.register__info-message_active-success {
+    display: flex;
+    color: #2BE080;
+}
+
 @media screen and (max-width: 440px) {
     .register {
         max-width: 260px;

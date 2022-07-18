@@ -61,7 +61,7 @@ function MovieCardList(props) {
 
     useEffect(() => {
 
-        if (locationPathname.pathname === '/movies') {
+        if (locationPathname.pathname === '/movies' && props.card !== null) {
             setMoviesToRender(props.card.slice(ZERO_NUMBER, numberMoviesToRender));
             if (props.card.length <= numberMoviesToRender) {
                 setIsShowButtonActive(false);

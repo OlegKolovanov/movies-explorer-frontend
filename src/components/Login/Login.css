@@ -118,6 +118,21 @@
     opacity: .7;
 }
 
+
+.login__info-message {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 13px;
+    color: #FF4062;
+    display: none;
+    flex-direction: column;
+    max-width: 396px;
+}
+
+.login__info-message_active {
+    display: flex;
+}
+
 @media screen and (max-width: 440px) {
     .login {
         max-width: 260px;

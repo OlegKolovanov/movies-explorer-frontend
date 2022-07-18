@@ -7,7 +7,13 @@ function Profile(props) {
     return (
         <section className="portfolio">
             <Header />
-            <ProfileForm handleLogout={props.handleLogout} handleUpdateProfile={props.handleUpdateProfile} />
+            <ProfileForm
+                handleLogout={props.handleLogout}
+                handleUpdateProfile={props.handleUpdateProfile}
+                profileUpdateMessage={props.profileUpdateMessage}
+                profileErrorMessage={props.profileErrorMessage}
+                isProfileUpdateSuccessful={props.isProfileUpdateSuccessful}
+            />
         </section>
     )
 }
