@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css"
 import Logo from "../Logo/Logo";
@@ -8,25 +8,49 @@ import { useFormWithValidation } from "../Validation/Validation";
 
 function Register(props) {
 
-
+    const [emailValid, setEmailValid] = useState('false')
+    const [email, setEmail] = useState('')
     const { values, isValid, handleChange, errors } = useFormWithValidation({
         name: "",
         email: "",
         password: "",
     })
 
+    // function validEmail(e) {
+    //     const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test({
+    //         email: values.email
+    //     })
+    //     console.log(valid)
+    // }
+
+    // useEffect(() => {
+    //     const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test({
+    //         email: values.email
+    //     })
+    //     console.log(valid)
+    // }, [values])
+
+    function handleChangeEmail(e) {
+        const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test(
+            e.target.value
+        );
+        setEmailValid(valid)
+        setEmail(e.target.value)
+    }
+
     function handleSubmit(e) {
         e.preventDefault()
-        if (isValid) {
+        if (isValid && emailValid) {
             props.handleRegister({
                 name: values.name,
-                email: values.email,
+                email: email,
                 password: values.password,
             })
         }
     }
+    console.log(props.isLoading)
 
-    console.log(props.isRegistrationSuccessful, props.userMessage, props.registrationError)
+
 
     return (
         <form className="register" onSubmit={handleSubmit}>
@@ -34,9 +58,9 @@ function Register(props) {
                 <Logo />
             </div>
             <h2 className="register__title">Добро пожаловать!</h2>
-            <label className="register__label">Имя<input className="register__input" onChange={(e) => handleChange(e)} type="text" id="name" name="name" value={values.name || ''} minLength="2" maxLength="18" required></input></label>
-            <label className="register__label">E-mail<input className="register__input" onChange={(e) => handleChange(e)} type="email" id="email" name="email" value={values.email || ''} required></input></label>
-            <label className="register__label">Пароль<input className="register__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" required></input></label>
+            <label className="register__label">Имя<input className="register__input" onChange={(e) => handleChange(e)} type="text" id="name" name="name" value={values.name || ''} minLength="2" maxLength="18" readOnly={props.isLoading} required></input></label>
+            <label className="register__label">E-mail<input className="register__input" onChange={(e) => handleChangeEmail(e)} type="email" id="email" name="email" value={email || ''} readOnly={props.isLoading} required></input></label>
+            <label className="register__label">Пароль<input className="register__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" readOnly={props.isLoading} required></input></label>
             <span className={`register__info-message 
              ${!isValid ? `register__info-message_active` : null}`}>
                 {errors?.name}{errors?.email}{errors?.password}

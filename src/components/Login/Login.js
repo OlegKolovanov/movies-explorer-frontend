@@ -27,8 +27,8 @@ function Login(props) {
                 <Logo />
             </div>
             <h2 className="login__title">Рады видеть!</h2>
-            <label className="login__label">E-mail<input className="login__input" onChange={(e) => handleChange(e)} type="email" id="email" name="email" value={values.email || ''} required></input></label>
-            <label className="login__label">Пароль<input className="login__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" required></input></label>
+            <label className="login__label">E-mail<input className="login__input" onChange={(e) => handleChange(e)} type="email" id="email" name="email" value={values.email || ''} readOnly={props.isLoading} required></input></label>
+            <label className="login__label">Пароль<input className="login__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" readOnly={props.isLoading} required></input></label>
             <span
                 className={`login__info-message 
              ${!isValid ? `login__info-message_active` : null}`}

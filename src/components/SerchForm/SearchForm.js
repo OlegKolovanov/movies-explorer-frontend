@@ -6,9 +6,12 @@ function SearchForm(props) {
 
     const location = useLocation()
 
-    const [input, setInput] = useState('')
+    const [input, setInput] = useState(props.previousSearchWord || '')
     const [isValid, setIsValid] = useState(false)
     const [error, setError] = useState(false)
+
+
+
 
     useEffect(() => {
         if (input.length > 0) {

@@ -29,6 +29,7 @@ function App() {
   const [longMovie, setLongMovie] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [nothingFound, setNothingFound] = useState(false);
+  const [nothingFoundSave, setNothingFoundSave] = useState(false);
   const [profileUpdateMessage, setProfileUpdateMessage] = useState("");
   const [profileErrorMessage, setProfileErrorMessage] = useState("");
   const [isProfileUpdateSuccessful, setIsProfileUpdateSuccessful] = useState(false);
@@ -39,52 +40,25 @@ function App() {
   const [loginErrorMessage, setLoginErrorMessage] = React.useState("");
 
 
-  function handleLogin({ email, password }) {
-    console.log(email, password)
-    if (!email || !password) {
-      return;
-    }
-
-    console.log(email, password)
-    mainApi
-      .login(email, password)
-      .then((res) => {
-        if (!res) throw new Error("Неправильные имя пользователя или пароль");
-        else {
-          console.log(res)
-          localStorage.setItem("jwt", res.token);
-          setLoggedIn(true)
-          setCurrentUser(res)
-          history('/movies')
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoginErrorMessage("Не удалось войти, пожалуйста, проверьте данные");
-        setLoginError(true);
-      });
-  }
-
 
   useEffect(() => {
+    const jwt = localStorage.getItem('jwt')
     if (jwt) {
       Promise.all([mainApi.getUser(jwt), mainApi.getMovie(jwt)])
         .then(([user, movie]) => {
-
-          setCurrentUser(user)
           setLoggedIn(true)
           const savedMoviesList = movie.data.filter(
             (item) => item.owner === currentUser._id
-
           );
+          localStorage.setItem('saveMovie', JSON.stringify(savedMoviesList))
+          const saveMovie = JSON.parse(localStorage.getItem('saveMovie'))
+          setLongUserMovie(savedMoviesList)
+          setCurrentUser(user)
           const movieList = JSON.parse(localStorage.getItem('movie'))
           setSearchCard(movieList)
           const listMovie = JSON.parse(localStorage.getItem('movies'))
-          setLongUserMovie(savedMoviesList)
-          setUserMovie(savedMoviesList)
-
+          setUserMovie(saveMovie)
           setMovie(listMovie)
-          history("/movies");
 
         })
         .catch((err) => {
@@ -92,6 +66,7 @@ function App() {
         })
     }
   }, [loggedIn])
+  console.log(loggedIn)
 
   const checkbox = JSON.parse(localStorage.getItem('boolean'))
 
@@ -146,7 +121,7 @@ function App() {
 
 
   function handleSaveMovieSearch(films) {
-    setNothingFound(false);
+    setNothingFoundSave(false);
     setIsLoading(true);
     if (films === '') {
       setUserMovie(longUserMovie)
@@ -156,7 +131,7 @@ function App() {
       (item) => regexp.test(item.nameRU) || regexp.test(item.nameEN)
     )
     if (findedMovies.length === 0) {
-      setNothingFound(false);
+      setNothingFoundSave(false);
       setIsLoading(true);
     }
 
@@ -171,9 +146,6 @@ function App() {
 
   }
 
-  // console.log(movie)
-
-
   useEffect(() => {
     localStorage.setItem('boolean', JSON.stringify(shortMovies))
     if (shortMovies === true) {
@@ -182,9 +154,6 @@ function App() {
       setSearchCard(longMovie)
     }
   }, [shortMovies])
-
-
-
 
   function handleSaveCheckBox() {
 
@@ -199,8 +168,6 @@ function App() {
   }
 
   function filterShortMovies(searchCard) {
-
-
 
     if ((searchCard.length !== 0 || searchCard !== "undefind") && shortMovies === true) {
       const shortMovie = searchCard.filter(movie => {
@@ -225,18 +192,52 @@ function App() {
   }
 
   function handleRegister({ name, email, password }) {
+    setUserMessage("");
+    setRegistrationError("");
+    setIsLoading(true)
     mainApi.register(name, email, password)
       .then((res) => {
         if (res) {
           console.log(email, password)
           setIsRegistrationSuccessful(true);
           setUserMessage("Вы успешно зарегистрированы!");
-          setTimeout(() => handleLogin({ email, password }), 1000)
+          setTimeout(() => handleLogin({ email, password }), 10000)
+          setTimeout(() => setUserMessage(""), 3000)
+        }
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        setRegistrationError("Что-то пошло не так...");
+        console.log(err);
+      });
+  }
+
+  function handleLogin({ email, password }) {
+
+    if (!email || !password) {
+      return;
+    }
+
+    console.log(email, password)
+    setIsLoading(true)
+    mainApi
+      .login(email, password)
+      .then((res) => {
+        if (!res) throw new Error("Неправильные имя пользователя или пароль");
+        else {
+          localStorage.setItem("jwt", res.token);
+          setLoggedIn(true)
+          setCurrentUser(res)
+          setIsLoading(false)
+          history('/movies')
         }
       })
       .catch((err) => {
-        setRegistrationError("Что-то пошло не так...");
         console.log(err);
+        setLoginErrorMessage("Не удалось войти, пожалуйста, проверьте данные");
+        setLoginError(true);
+        setIsLoading(false)
       });
   }
 
@@ -244,17 +245,19 @@ function App() {
 
   function handleLogout() {
     console.log('1')
-    localStorage.clear()
-    setLongUserMovie([])
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('movie')
+    localStorage.removeItem('search')
+
     setSearchCard([])
-    setUserMovie([])
+
     setLongMovie([])
     setLoggedIn(false)
     setSaveShortMovies([])
     setCurrentUser({})
     setShortMovies([])
     setMovie([])
-    history('/signin')
+    history('/')
   }
 
   useEffect(() => {
@@ -301,9 +304,9 @@ function App() {
       .then((newMovies) => {
         console.log(newMovies)
         localStorage.setItem('userMovie', JSON.stringify((newMovies = [newMovies, ...userMovie])))
+
         setUserMovie(newMovies)
         setLongUserMovie(newMovies)
-        console.log(newMovies)
       })
   }
 
@@ -334,41 +337,45 @@ function App() {
     <div className="app">
       <CurrentUserContext.Provider value={currentUser}>
         <Routes>
-          <Route path="/" element={<Main loggedIn={loggedIn} />} />
-          <Route path="/movies" element={loggedIn ? <Movies
+          <Route exact path="/" element={<Main loggedIn={loggedIn} />} />
+          <Route exact path="/movies" element={loggedIn ? <Movies
             handleDelete={handleDelete} handleLike={handleLike}
             handleSearchForm={handleSearchForm}
             checked={shortMovies}
-            saveCard={userMovie}
+            saveCard={longUserMovie}
             card={searchCard}
             sortMovie={handleCheckBox}
             shortMovies={filterShortMovies}
             isNothingFound={nothingFound}
-            isLoading={isLoading} /> : <Navigate to='/' />} />
-          <Route path="/saved-movies" element={loggedIn ? <SavedMovies card={userMovie}
+            isLoading={isLoading}
+            previousSearchWord={JSON.parse(localStorage.getItem('search'))} /> : <Navigate to='/' />} />
+          <Route exact path="/saved-movies" element={loggedIn ? <SavedMovies
+            card={userMovie}
             handleDelete={handleDelete}
             handleSaveSearchForm={handleSaveMovieSearch}
             shortSaveMovies={filterSaveShortMovie}
             checkedSave={saveShortMovies}
             sortSaveMovie={handleSaveCheckBox}
-            isNothingFound={nothingFound}
+            isNothingFound={nothingFoundSave}
             isLoading={isLoading} /> : <Navigate to='/' />} />
-          <Route path="/profile" element={loggedIn ? <Profile
+          <Route exact path="/profile" element={loggedIn ? <Profile
             handleLogout={handleLogout}
             handleUpdateProfile={handleUpdateProfile}
             profileUpdateMessage={profileUpdateMessage}
             profileErrorMessage={profileErrorMessage}
             isProfileUpdateSuccessful={isProfileUpdateSuccessful}
           /> : <Navigate to='/' />} />
-          <Route path="/signup" element={<Register
+          <Route exact path="/signup" element={!loggedIn ? <Register
+            isLoading={isLoading}
             handleRegister={handleRegister}
             userMessage={userMessage}
             registrationError={registrationError}
-            isRegistrationSuccessful={isRegistrationSuccessful} />} />
-          <Route path="/signin" element={<Login
+            isRegistrationSuccessful={isRegistrationSuccessful} /> : <Navigate to='/' />} />
+          <Route exact path="/signin" element={!loggedIn ? <Login
+            isLoading={isLoading}
             handleLogin={handleLogin}
             loginError={loginError}
-            loginErrorMessage={loginErrorMessage} />} />
+            loginErrorMessage={loginErrorMessage} /> : <Navigate to='/' />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </CurrentUserContext.Provider>

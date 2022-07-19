@@ -17,6 +17,7 @@ function Movies(props) {
                 sortMovie={props.sortMovie}
                 shortMovies={props.shortMovies}
                 checked={props.checked}
+                previousSearchWord={props.previousSearchWord}
             />
             <Preloader
                 isLoading={props.isLoading}
