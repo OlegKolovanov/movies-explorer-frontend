@@ -3,10 +3,13 @@ import "./ProfileForm.css"
 import { Link } from "react-router-dom";
 import { useFormWithValidation } from "../Validation/Validation";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { useState } from "react";
 
 function ProfileForm(props) {
 
     const currentUser = React.useContext(CurrentUserContext);
+    const [emailValid, setEmailValid] = useState('false')
+
 
 
     const [dataIsChanged, setDataIsChanged] = React.useState(false);
@@ -18,6 +21,12 @@ function ProfileForm(props) {
         userEmail: emailRef.currentValue,
     });
 
+    React.useEffect(() => {
+        const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test(
+            values.userEmail
+        );
+        setEmailValid(valid)
+    }, [values.userEmail])
 
     React.useEffect(() => {
         nameRef.current.value === currentUser.name &&
@@ -29,7 +38,7 @@ function ProfileForm(props) {
     function handleSubmit(e) {
         e.preventDefault()
         if (dataIsChanged === true) {
-            if (isValid) {
+            if (isValid && emailValid) {
                 props.handleUpdateProfile({
                     name: nameRef.current.value,
                     email: emailRef.current.value,
@@ -38,9 +47,8 @@ function ProfileForm(props) {
         }
     };
 
-    console.log(props.isProfileUpdateSuccessful, props.profileUpdateMessage, props.profileErrorMessage)
-
-    function handleLogout() {
+    function handleLogout(e) {
+        e.preventDefault()
         props.handleLogout()
     }
 
@@ -67,7 +75,7 @@ function ProfileForm(props) {
                         defaultValue={currentUser.email}
                         ref={emailRef}
                         required></input></label>
-                    <span className={`profile-form__message ${isValid ? 'profile-form__message_active' : null}`}>
+                    <span className={`profile-form__message ${isValid && emailValid ? 'profile-form__message_active' : null}`}>
                         {errors?.userName}
                         {errors?.userEmail}
                     </span>
@@ -77,7 +85,7 @@ function ProfileForm(props) {
                             : `${props.profileErrorMessage}`}
                     </span>
                 </div>
-                <button className={dataIsChanged ? 'profile-form__button' : 'profile-form__button_unactive'} type="submit">Редактировать</button>
+                <button className={dataIsChanged && isValid && emailValid ? 'profile-form__button' : 'profile-form__button_unactive'} type="submit">Редактировать</button>
                 <button className="profile-form__exit" type="submit" onClick={handleLogout}>Выйти из аккаунта</button>
             </form>
 

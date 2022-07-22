@@ -16,20 +16,6 @@ function Register(props) {
         password: "",
     })
 
-    // function validEmail(e) {
-    //     const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test({
-    //         email: values.email
-    //     })
-    //     console.log(valid)
-    // }
-
-    // useEffect(() => {
-    //     const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test({
-    //         email: values.email
-    //     })
-    //     console.log(valid)
-    // }, [values])
-
     function handleChangeEmail(e) {
         const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test(
             e.target.value
@@ -62,7 +48,7 @@ function Register(props) {
             <label className="register__label">E-mail<input className="register__input" onChange={(e) => handleChangeEmail(e)} type="email" id="email" name="email" value={email || ''} readOnly={props.isLoading} required></input></label>
             <label className="register__label">Пароль<input className="register__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" readOnly={props.isLoading} required></input></label>
             <span className={`register__info-message 
-             ${!isValid ? `register__info-message_active` : null}`}>
+             ${!isValid && !emailValid ? `register__info-message_active` : null}`}>
                 {errors?.name}{errors?.email}{errors?.password}
             </span>
             <span className={`register__info-message 

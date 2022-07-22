@@ -3,8 +3,20 @@ import "./Login.css"
 import Logo from "../Logo/Logo";
 import { useFormWithValidation } from "../Validation/Validation";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function Login(props) {
+
+    const [email, setEmail] = useState('')
+    const [emailValid, setEmailValid] = useState('false')
+
+    function handleChangeEmail(e) {
+        const valid = /[^@\s]+@[^@\s]+\.[^@\s]+/.test(
+            e.target.value
+        );
+        setEmailValid(valid)
+        setEmail(e.target.value)
+    }
 
     const { values, isValid, handleChange, errors } = useFormWithValidation({
         email: "",
@@ -13,13 +25,15 @@ function Login(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (isValid) {
+        if (isValid && emailValid) {
             props.handleLogin({
-                email: values.email,
+                email: email,
                 password: values.password,
             })
         }
     }
+
+
 
     return (
         <form className="login" onSubmit={handleSubmit}>
@@ -27,7 +41,7 @@ function Login(props) {
                 <Logo />
             </div>
             <h2 className="login__title">Рады видеть!</h2>
-            <label className="login__label">E-mail<input className="login__input" onChange={(e) => handleChange(e)} type="email" id="email" name="email" value={values.email || ''} readOnly={props.isLoading} required></input></label>
+            <label className="login__label">E-mail<input className="login__input" onChange={(e) => handleChangeEmail(e)} type="email" id="email" name="email" value={email || ''} readOnly={props.isLoading} required></input></label>
             <label className="login__label">Пароль<input className="login__input" onChange={(e) => handleChange(e)} id="password" type="password" name="password" value={values.password || ''} minLength="8" readOnly={props.isLoading} required></input></label>
             <span
                 className={`login__info-message 
